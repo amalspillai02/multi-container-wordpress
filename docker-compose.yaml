@@ -1,0 +1,26 @@
+services:
+  db:
+    build:
+      .
+    container_name: mariadb
+    restart: always
+    env_file:
+    - .env
+    volumes:
+    - db_data:/var/lib/mysql
+    ports:
+    - "3306:3306"
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    restart: always
+    depends_on:
+    - db
+    env_file:
+    - .env
+    ports:
+    - "8080:80"
+
+volumes:
+  db_data:
